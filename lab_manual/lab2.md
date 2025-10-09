@@ -32,7 +32,7 @@ reference for most of the LLVM API used in this lab and also throughout the cour
 + This will set up the development environment for this lab in VS Code.
 + Inside the development environment the skeleton code for Lab 2 will be located
 under `/lab2`.
-+ Afterwards, if VS Code prompts you to select a kit for the lab then pick Clang 8.
++ Afterwards, if VS Code prompts you to select a kit for the lab then pick Clang 19.
 
 
 ### Lab2's project structure:
@@ -68,11 +68,13 @@ You can use the C programs under `/lab2/test` directory to try it out:
 The user manual of clang has a useful reference to its
 [command-line options][clang-cli-opts].
 Briefly,
-+ `-S` instructs clang to perform preprocessing and compilation steps only
 + `-emit-llvm` instructs the compiler to generate LLVM IR
 (which will be saved to simple0.ll)
++ `-S` instructs clang to perform preprocessing and compilation steps only
++ `-g` instructs clang to include debug information in the generated output
 + `-fno-discard-value-names` preserves names of values in the generated
 LLVM for improving readability.
++ `-Xclang -disable-O0-optnone` prevents clang from adding the optnone attribute at -O0, so the generated IR stays simple but can still be optimized or analyzed by LLVM passes.
 
 #### Step 2
 
@@ -146,7 +148,7 @@ program to LLVM IR, as you did in Part 1:
 
 ```sh
 /lab2$ cd test
-/lab2/test$ clang -emit-llvm -S -O0 -g -fno-discard-value-names -Xclang -disable-O0-optnone -c -o simple0.ll simple0.c -g
+/lab2/test$ clang -emit-llvm -S -O0 -g -fno-discard-value-names -Xclang -disable-O0-optnone -c -o simple0.ll simple0.c
 ```
 
 #### Step 3
@@ -462,11 +464,11 @@ Then upload the `submission.zip` file to TA's email.
 
 [llvm-primer]: https://tingsu.github.io/files/courses/llvm-framework-primer.pdf
 [llvm-lang]: https://llvm.org/docs/LangRef.html
-[llvm-api]: https://releases.llvm.org/8.0.1/docs/index.html
-[llvm-pass]: https://llvm.org/docs/WritingAnLLVMPass.html
+[llvm-api]: https://llvm.org/docs/index.html
+[llvm-pass]: https://llvm.org/docs/WritingAnLLVMNewPMPass.html
 [llvm]: https://llvm.org
 [command-palette]: https://code.visualstudio.com/docs/getstarted/tips-and-tricks#_command-palette
-[clang-cli-opts]:https://releases.llvm.org/8.0.0/tools/clang/docs/UsersManual.html#command-line-options
+[clang-cli-opts]:https://releases.llvm.org/19.1.0/tools/clang/docs/UsersManual.html#command-line-options
 [cmake-tutorial]: https://cmake.org/cmake/help/latest/guide/tutorial/index.html
 [makefile-tutorial]: https://www.gnu.org/software/make/manual/html_node/Simple-Makefile.html#Simple-Makefile
 [opt-doc]: https://llvm.org/docs/CommandGuide/opt.html
